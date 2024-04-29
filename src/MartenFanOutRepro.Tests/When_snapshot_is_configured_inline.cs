@@ -1,9 +1,9 @@
 using Marten;
 using Marten.Events.Aggregation;
 using Marten.Events.Projections;
-using static MartenDotNetTestTemplate.Tests.TestDatabase;
+using static MartenFanOutRepro.Tests.TestDatabase;
 
-namespace MartenDotNetTestTemplate.Tests;
+namespace MartenFanOutRepro.Tests;
 
 public record SomethingHappened(DateTimeOffset On);
 

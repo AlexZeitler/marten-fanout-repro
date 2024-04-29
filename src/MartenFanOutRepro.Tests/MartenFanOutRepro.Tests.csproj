@@ -8,6 +8,8 @@
         <IsPackable>false</IsPackable>
 
         <LangVersion>12</LangVersion>
+
+        <RootNamespace>MartenFanOutRepro.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
