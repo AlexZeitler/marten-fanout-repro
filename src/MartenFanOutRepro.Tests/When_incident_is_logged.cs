@@ -15,7 +15,7 @@ public record Incident(DateTimeOffset On)
 
 public record ChatStarted(Guid ContextId, DateTimeOffset On);
 
-public record Chat(Guid ContextId)
+public record Chat(string ContextId)
 {
   public string Id { get; set; }
 };
@@ -41,8 +41,11 @@ public class IncidentChatProjection : MultiStreamProjection<Chat, string>
   public static Chat Create(
     IEvent<ChatStarted> @event
   ) => new(
-    @event.StreamId
-  );
+    @event.StreamKey
+  )
+  {
+    Id = @event.StreamKey
+  };
 }
 
 public class IncidentProjection : SingleStreamProjection<Incident>
