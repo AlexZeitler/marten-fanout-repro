@@ -40,12 +40,15 @@ public class IncidentChatProjection : MultiStreamProjection<Chat, string>
 
   public static Chat Create(
     IEvent<ChatStarted> @event
-  ) => new(
-    @event.StreamKey
   )
   {
-    Id = @event.StreamKey
-  };
+    return new Chat(
+      @event.StreamKey
+    )
+    {
+      Id = @event.StreamKey
+    };
+  }
 }
 
 public class IncidentProjection : SingleStreamProjection<Incident>
@@ -78,6 +81,7 @@ public class When_incident_is_logged
     _streamId = Guid.NewGuid();
 
     await using var session = _store?.LightweightSession();
+    session.Logger = new ConsoleMartenLogger();
     session?.Events.Append(_streamId, logged);
     await session?.SaveChangesAsync()!;
   }
@@ -93,6 +97,7 @@ public class When_incident_is_logged
   [Test]
   public async Task should_create_chat_projection()
   {
+    await Task.Delay(1000);
     await using var querySession = _store?.QuerySession();
     var chat = await querySession?.Query<Chat>().ToListAsync()!;
     chat.Count.ShouldBeGreaterThan(0);
