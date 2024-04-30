@@ -36,6 +36,7 @@ public class IncidentChatProjection : MultiStreamProjection<Chat, string>
     );
     Identity<ChatStarted>(e => $"incident-chat-{e.ContextId}");
     IncludeType<IncidentLogged>();
+    TransformsEvent<IncidentLogged>();
   }
 
   public static Chat Create(
